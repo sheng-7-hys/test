@@ -10,18 +10,18 @@
 
 typedef struct Node {
 	int data;
-	struct Node *next;
-} Node;
+	struct Node *next;//指向下一个结点的指针
+} Node;//定义结点结构体
 
 /* 创建新结点 */
 Node* create_node(int val) {
-	Node *p = (Node*)malloc(sizeof(Node));
+	Node *p = (Node*)malloc(sizeof(Node));//动态分配内存
 	if (!p) {
 		fprintf(stderr, "内存分配失败\n");
-		exit(EXIT_FAILURE);
+		exit(EXIT_ FAILURE);//分配失败则退出程序
 	}
 	p->data = val;
-	p->next = NULL;
+	p->next = NULL;//新结点的下一个结点指针初始化为 NULL
 	return p;
 }
 

@@ -4,7 +4,7 @@ int main() {
     while(fgets(str, sizeof(str), stdin)!=NULL){ 
         count++;
     }
-    printf("%d\n", count);  
+    printf("%d\n", count);
 
     return 0;
 }
