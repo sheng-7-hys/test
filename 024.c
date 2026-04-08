@@ -401,7 +401,7 @@ static int split_premises(char *left, char parts[MAX_PREMISES][MAX_FORMULA_LEN])
             if (len > 0) {
                 if (count >= MAX_PREMISES) return -1;
                 if (len >= MAX_FORMULA_LEN) len = MAX_FORMULA_LEN - 1;
-                strncpy(parts[count], start, len);
+                memcpy(parts[count], start, (size_t)len);
                 parts[count][len] = '\0';
                 trim(parts[count]);
                 if (strlen(parts[count]) > 0) {
