@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include <stdlib.h>
 
 #define MAX_FORMULA_LEN 256
 #define MAX_TOKENS 512
@@ -384,8 +385,6 @@ static void judge_relation(const ParsedFormula *f1, const ParsedFormula *f2) {
         printf("前者蕴含后者（但不等价）。\n");
     } else if (!a_imp_b && b_imp_a) {
         printf("后者蕴含前者（但不等价）。\n");
-    } else if (a_imp_b && b_imp_a) {
-        printf("两命题逻辑等价。\n");
     } else {
         printf("两命题既不等价，也不存在单向蕴含关系。\n");
     }
@@ -486,7 +485,7 @@ static void judge_inference(const char *input) {
     int valid = 1;
     for (int mask = 0; mask < rows; mask++) {
         int values[26];
-        int ok = 0;
+        int ok = 1;
         build_values(vars, nvars, mask, values);
 
         int all_premises_true = 1;
@@ -560,7 +559,12 @@ int main(void) {
         return 0;
     }
 
-    int rows_result[1 << MAX_VARS] = {0};
+    int rows = 1 << nvars;
+    int *rows_result = (int *)calloc((size_t)rows, sizeof(int));
+    if (rows_result == NULL) {
+        printf("内存分配失败\n");
+        return 0;
+    }
     print_truth_table(&f1, vars, nvars, rows_result);
     print_formula_type(nvars, rows_result);
     print_pdnf(vars, nvars, rows_result);
@@ -581,5 +585,6 @@ int main(void) {
     judge_inference(infer_line);
 
     print_sample_cases();
+    free(rows_result);
     return 0;
 }
