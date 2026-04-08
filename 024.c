@@ -269,7 +269,7 @@ static void print_truth_table(const ParsedFormula *f, const char vars[MAX_VARS],
 
     for (int mask = 0; mask < rows; mask++) {
         int values[26];
-        int ok = 0;
+        int ok = 1;
         build_values(vars, nvars, mask, values);
         for (int i = 0; i < nvars; i++) {
             printf("%d ", values[vars[i] - 'A']);
@@ -362,7 +362,7 @@ static void judge_relation(const ParsedFormula *f1, const ParsedFormula *f2) {
     int b_imp_a = 1;
 
     for (int mask = 0; mask < rows; mask++) {
-        int values[26], ok1 = 0, ok2 = 0;
+        int values[26], ok1 = 1, ok2 = 1;
         build_values(vars, nvars, mask, values);
         int a = eval_formula(f1, values, &ok1);
         int b = eval_formula(f2, values, &ok2);
@@ -485,13 +485,13 @@ static void judge_inference(const char *input) {
     int valid = 1;
     for (int mask = 0; mask < rows; mask++) {
         int values[26];
-        int ok = 1;
         build_values(vars, nvars, mask, values);
 
         int all_premises_true = 1;
         for (int i = 0; i < premise_count; i++) {
-            int pv = eval_formula(&premises[i], values, &ok);
-            if (!ok) {
+            int ok_p = 1;
+            int pv = eval_formula(&premises[i], values, &ok_p);
+            if (!ok_p) {
                 printf("\n[5] 推理判断: 前提求值失败\n");
                 return;
             }
@@ -502,8 +502,9 @@ static void judge_inference(const char *input) {
         }
 
         if (all_premises_true) {
-            int cv = eval_formula(&conclusion, values, &ok);
-            if (!ok) {
+            int ok_c = 1;
+            int cv = eval_formula(&conclusion, values, &ok_c);
+            if (!ok_c) {
                 printf("\n[5] 推理判断: 结论求值失败\n");
                 return;
             }
