@@ -1,0 +1,47 @@
+#include <cstdio>
+#include <iostream>
+using namespace std;
+
+typedef char ElemType;
+typedef struct BiNode{
+                ElemType  Data;
+                struct BiNode * Lchild, *Rchild;
+}BiNode, * BiTree;  
+
+BiTree CreateTree(  ); /*建树，裁判实现，细节不表 */
+void PreOutput( BiTree T ){
+    if(T){
+        cout<<" "<<T->Data;
+        PreOutput(T->Lchild);
+        PreOutput(T->Rchild);
+    }
+}
+void InOutput( BiTree T ){
+    if(T){
+        InOutput(T->Lchild);
+        cout<<" "<<T->Data;
+        InOutput(T->Rchild);
+    }
+}
+void PostOutput( BiTree T ){
+    if(T){
+        PostOutput(T->Lchild);
+        PostOutput(T->Rchild);
+        cout<<" "<<T->Data;
+    }
+}
+
+int main()
+{
+
+    BiTree T;
+    T = CreateTree(  )
+    cout<<"PreOrder:";  PreOutput( T ); cout<<endl;
+    cout<<"InOrder:";  InOutput( T ); cout<<endl;
+    cout<<"PostOrder:";  PostOutput( T );  cout<<endl;
+    return 0;
+
+}
+
+/* 你的代码将被嵌在这里 */
+
